@@ -59,7 +59,7 @@ namespace PingPong
             var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
             var child = firebase.Child("Players");
             var dino = await child.PostAsync(player);
-            MessageBox.Show(dino.Key + " " + dino.Object);
+            this.Close();
         }
     }
 }

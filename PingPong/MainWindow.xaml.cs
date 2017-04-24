@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Firebase.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,32 @@ namespace PingPong
         public MainWindow()
         {
             InitializeComponent();
+
+        
         }
         private void button_Click(object sender, RoutedEventArgs e)
         {
             new AddPlayer().Show();
         }
+
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private async void afegirJugador(Player[] players)
+        {
+            ListViewItem itm;
+            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+            var child = firebase.Child("Players");
+            var dinos = firebase
+                .Child("Players")
+                .AsObservable<Player>().AsObservableCollection();
+
+            foreach (var player in dinos)
+            {
+               
+            }
+        }
+
     }
 }

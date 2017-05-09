@@ -9,10 +9,11 @@
     <Grid>
         <Button x:Name="button" Content="Afegir jugador" HorizontalAlignment="Left" Margin="208,0,0,10" Width="97" Height="22" VerticalAlignment="Bottom" Click="button_Click"/>
         <Button x:Name="button2" Content="Esborrar jugador" Margin="208,0,0,37" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="97"/>
-        <ListView x:Name="listView" HorizontalAlignment="Left" Width="203" SelectionChanged="listView_SelectionChanged">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Width="175" SelectionChanged="listView_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Nom" Width="120" DisplayMemberBinding="{Binding nom}" />
+                    <GridViewColumn Header="punts" Width="50" DisplayMemberBinding="{Binding punts}" />
                 </GridView>
             </ListView.View>
         </ListView>

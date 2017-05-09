@@ -20,7 +20,7 @@ namespace PingPong
             this.nom = nom;
             this.fotoPath = foto;
         }
-
+        
     }
 
 }

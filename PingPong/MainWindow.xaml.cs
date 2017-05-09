@@ -24,32 +24,55 @@ namespace PingPong
         public MainWindow()
         {
             InitializeComponent();
-
-        
+            llistarJugadors();
         }
+
         private void button_Click(object sender, RoutedEventArgs e)
+        {
+            new AddPlayer().Show();
+        }
+
+
+        private void button2_Click(object sender, RoutedEventArgs e)
         {
             new AddPlayer().Show();
         }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
-        private async void afegirJugador(Player[] players)
-        {
-            ListViewItem itm;
-            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
-            var child = firebase.Child("Players");
-            var dinos = firebase
-                .Child("Players")
-                .AsObservable<Player>().AsObservableCollection();
 
+        private async void llistarJugadors()
+        {
+            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+            var dinos = await firebase
+                .Child("Players").OnceAsync<Player>();
+            
             foreach (var player in dinos)
             {
-               
-            }
+                Player p = new Player(player.Object.nom, player.Object.fotoPath);
+                p.punts = player.Object.punts;
+                p.partitsJugats = player.Object.partitsJugats;
+                player.Object.id = player.Key;
+
+                listView.Items.Add(p);
+            }           
         }
 
+        private async void esborrarJugadors()
+        {
+            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+            var players = listView.SelectedItems;
+
+            foreach (Player player in players)
+            {
+                MessageBox.Show(player.id);
+                var child = firebase.Child("Players/" + player.id);
+
+                await child.DeleteAsync();
+               
+            }
+            llistarJugadors();
+        }
     }
 }

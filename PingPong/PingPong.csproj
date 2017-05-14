@@ -39,10 +39,6 @@
       <HintPath>..\packages\FirebaseDatabase.net.2.0.2\lib\portable45-net45+win8+wpa81\Firebase.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Firebase.Database.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FirebaseDatabase.Platform.net.1.0.0\lib\portable46-net451+win81\Firebase.Database.Platform.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Lex.Db, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lex.Db.1.2.6\lib\net45\Lex.Db.dll</HintPath>
       <Private>True</Private>

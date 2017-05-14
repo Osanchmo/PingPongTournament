@@ -32,18 +32,19 @@ namespace PingPong
             new AddPlayer().Show();
         }
 
-
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            new AddPlayer().Show();
+            esborrarJugadors();
         }
 
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void updateBut_Click(object sender, RoutedEventArgs e)
         {
+            llistarJugadors();
         }
 
         private async void llistarJugadors()
         {
+            listView.Items.Clear();
             var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
             var dinos = await firebase
                 .Child("Players").OnceAsync<Player>();
@@ -53,7 +54,7 @@ namespace PingPong
                 Player p = new Player(player.Object.nom, player.Object.fotoPath);
                 p.punts = player.Object.punts;
                 p.partitsJugats = player.Object.partitsJugats;
-                player.Object.id = player.Key;
+                p.id = player.Key;
 
                 listView.Items.Add(p);
             }           
@@ -66,12 +67,12 @@ namespace PingPong
 
             foreach (Player player in players)
             {
-                MessageBox.Show(player.id);
+                MessageBox.Show(player.nom + " esborrat");
                 var child = firebase.Child("Players/" + player.id);
 
                 await child.DeleteAsync();
-               
             }
+
             llistarJugadors();
         }
     }

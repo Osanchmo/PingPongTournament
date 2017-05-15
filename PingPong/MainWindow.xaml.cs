@@ -122,7 +122,6 @@ namespace PingPong
                 {
                     Partit partit = game.Object;
                     partit.id = game.Key;
-
                     listView1.Items.Add(partit);
                 }
         }

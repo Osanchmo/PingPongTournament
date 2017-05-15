@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PingPong"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="456.226" Width="928.347">
     <Grid>
         <Button x:Name="button" Content="Afegir jugador" HorizontalAlignment="Left" Margin="180,0,0,10" Width="97" Height="22" VerticalAlignment="Bottom" Click="button_Click"/>
         <Button x:Name="button2" Content="Esborrar jugador" Margin="180,0,0,37" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="97" Click="button2_Click"/>
@@ -17,8 +17,20 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button3" Content="Crear&#xD;&#xA;torneig" Margin="0,0,10,10" Height="49" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <Button x:Name="startTournament" Content="Crear&#xD;&#xA;torneig" Margin="0,0,315,10" HorizontalAlignment="Right" Width="75" Click="startTournament_Click" Height="49" VerticalAlignment="Bottom"/>
         <Button x:Name="updateBut" Content="Update" Margin="180,0,0,287" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="97" Click="updateBut_Click"/>
+        <ListView x:Name="listView1" HorizontalAlignment="Right" Width="310">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="jugador1" Width="100" DisplayMemberBinding="{Binding nom1}" />
+                    <GridViewColumn Header="VS" Width="30" />
+                    <GridViewColumn Header="jugador2" Width="100" DisplayMemberBinding="{Binding nom2}" />
+                    <GridViewColumn Header="guanyador" Width="70" DisplayMemberBinding="{Binding nGuanyador}" />
+
+
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>

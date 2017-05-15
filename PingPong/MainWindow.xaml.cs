@@ -25,6 +25,7 @@ namespace PingPong
         {
             InitializeComponent();
             llistarJugadors();
+            listTournament();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -42,22 +43,28 @@ namespace PingPong
             llistarJugadors();
         }
 
+        private void startTournament_Click(object sender, RoutedEventArgs e)
+        {
+            tournamentStart();
+        }
+
         private async void llistarJugadors()
         {
             listView.Items.Clear();
             var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
             var dinos = await firebase
-                .Child("Players").OnceAsync<Player>();
-            
-            foreach (var player in dinos)
-            {
-                Player p = new Player(player.Object.nom, player.Object.fotoPath);
-                p.punts = player.Object.punts;
-                p.partitsJugats = player.Object.partitsJugats;
-                p.id = player.Key;
+                    .Child("Players").OnceAsync<Player>();
 
-                listView.Items.Add(p);
-            }           
+                foreach (var player in dinos)
+                {
+                    Player p = new Player(player.Object.nom, player.Object.fotoPath);
+                    p.punts = player.Object.punts;
+                    p.partitsJugats = player.Object.partitsJugats;
+                    p.id = player.Key;
+
+                    listView.Items.Add(p);
+                }
+
         }
 
         private async void esborrarJugadors()
@@ -75,5 +82,50 @@ namespace PingPong
 
             llistarJugadors();
         }
+
+        private async void tournamentStart()
+        {
+            var players = listView.Items;
+            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+            var child = firebase.Child("Games");
+
+            if (listView1.HasItems)
+            {
+                MessageBox.Show("Ya s'ha començat un torneig");
+            }
+            else
+            {
+
+                foreach (Player player in players)
+                {
+                    foreach (Player p in players)
+                    {
+                        if (p.id != player.id)
+                        {
+                            Partit partit = new Partit(p.id, p.nom, player.id, player.nom);
+                            await child.PostAsync(partit);
+                        }
+                    }
+                }
+                listTournament();
+            }
+        }
+
+        private async void listTournament()
+        {
+
+                var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+                var child = firebase.Child("Games");
+                var dinos = await child.OnceAsync<Partit>();
+
+                foreach (var game in dinos)
+                {
+                    Partit partit = game.Object;
+                    partit.id = game.Key;
+
+                    listView1.Items.Add(partit);
+                }
+        }
+
     }
 }

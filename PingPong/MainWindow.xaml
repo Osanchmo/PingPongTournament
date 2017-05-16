@@ -33,7 +33,7 @@
         </ListView>
         <TextBox x:Name="jugador1" HorizontalAlignment="Right" Height="23" Margin="0,10,315,0" TextWrapping="Wrap" Text="Puntuació1" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="Jugador2" Height="23" Margin="0,38,315,0" TextWrapping="Wrap" Text="Puntuació2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120"/>
-        <Button x:Name="puntuacio" Content="assignar punts" Margin="0,66,315,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120"/>
+        <Button x:Name="puntuacio" Content="assignar punts" Margin="0,66,315,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Click="puntuacio_Click"/>
         <Button x:Name="deleteTournament" Content="Esborrar torneig" Margin="0,0,395,9" HorizontalAlignment="Right" Width="102" Click="startTournament_Click" Height="49" VerticalAlignment="Bottom"/>
 
     </Grid>

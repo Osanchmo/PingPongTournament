@@ -85,7 +85,9 @@ namespace PingPong
 
         private async void tournamentStart()
         {
-            var players = listView.Items;
+            Player[] players = new Player[listView.Items.Count];
+            listView.Items.CopyTo(players, 0);
+
             var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
             var child = firebase.Child("Games");
 
@@ -95,14 +97,14 @@ namespace PingPong
             }
             else
             {
-
-                foreach (Player player in players)
+                for (int i = 0; i < listView.Items.Count; ++i)
                 {
-                    foreach (Player p in players)
+                    for (int j = 0; j < listView.Items.Count; ++j)
                     {
-                        if (p.id != player.id)
+                        if (j > i)
                         {
-                            Partit partit = new Partit(p.id, p.nom, player.id, player.nom);
+                            Partit partit = new Partit(players[i].id, players[i].nom, players[j].id, players[j].nom);
+
                             await child.PostAsync(partit);
                         }
                     }
@@ -126,5 +128,15 @@ namespace PingPong
                 }
         }
 
+        private async void puntuacio_Click(object sender, RoutedEventArgs e)
+        {
+            Partit partit = (Partit)listView1.SelectedItem;
+
+            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+            var child = firebase.Child("Games/" + partit.id);
+
+           //var firePart = await child.OnceAsync<Partit>;
+
+        }
     }
 }

@@ -128,15 +128,71 @@ namespace PingPong
                 }
         }
 
-        private async void puntuacio_Click(object sender, RoutedEventArgs e)
+        private async void  puntuacio_Click(object sender, RoutedEventArgs e)
         {
+            
             Partit partit = (Partit)listView1.SelectedItem;
 
             var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
-            var child = firebase.Child("Games/" + partit.id);
 
-           //var firePart = await child.OnceAsync<Partit>;
+            int x = 0;
+            int y = 0;
+            if(Int32.TryParse(jugador1.Text, out x) && Int32.TryParse(jugador1.Text, out y) && partit != null)
+            {
+                partit.punts1 = x;
+                partit.punts2 = y;
 
+                partit.setGanador();
+
+                if (partit.nGuanyador != "")
+                {
+                    var winnerChild = firebase.Child("Players/" + partit.idGuanyador);
+                    var looserChild = firebase.Child("Players/" + partit.getLooser());
+                   
+
+                    var winner = await winnerChild.OnceSingleAsync<Player>();
+                    var looser = await winnerChild.OnceSingleAsync<Player>();
+
+                    winner.punts += 3;
+                    winner.partitsJugats += 1;
+                    looser.partitsJugats += 1;
+
+                    await winnerChild.PutAsync<Player>(winner);
+                    await looserChild.PutAsync<Player>(looser);
+                    
+                } else //aqui es empat
+                {
+                    var jugador1Child = firebase.Child("Players/" + partit.jugador1);
+                    var jugador2Child = firebase.Child("Players/" + partit.jugador2);
+
+                    var j1 = await jugador1Child.OnceSingleAsync<Player>();
+                    var j2 = await jugador2Child.OnceSingleAsync<Player>();
+
+                    j1.partitsJugats += 1;
+                    j2.partitsJugats += 1;
+
+                    await jugador1Child.PutAsync<Player>(j1);
+                    await jugador2Child.PutAsync<Player>(j2);
+                }
+                var partitChild = firebase.Child("Games/" + partit.id);
+                await partitChild.PutAsync<Partit>(partit);
+
+                listTournament();
+            }
+            else
+            {
+                MessageBox.Show("La puntiació no es un número o no has selecionat partit");
+            }
+
+
+        }
+
+        private void deleteTournament_Click(object sender, RoutedEventArgs e)
+        {
+            var firebase = new FirebaseClient("https://pingpongtournament-b0d42.firebaseio.com/");
+            firebase.Child("").DeleteAsync();
+            llistarJugadors();
+            listTournament();
         }
     }
 }

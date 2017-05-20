@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace PingPong
 {
-    class Partit
+    public class Partit
     {
         [JsonIgnore]
         public String id { get; set; }
@@ -26,6 +26,22 @@ namespace PingPong
             this.nom2 = nom2;
         }
 
+        public String getLooser()
+        {
+            if (punts1 > punts2)
+            {
+                return jugador2;
+            }
+            else if (punts1 < punts2)
+            {
+                return jugador1;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         public void setGanador()
         {
             if(punts1 > punts2)
@@ -39,8 +55,19 @@ namespace PingPong
             }
             else
             {
-                this.idGuanyador = "empat";
-                this.nGuanyador = "";
+                this.idGuanyador = "";
+                this.nGuanyador = "empat";
+            }
+        }
+        //comproba que la puntació sigui valida (assert)
+        public bool comprobarPunts()
+        {
+            if (punts1 < 0 || punts1 > 24 || punts2 < 0 || punts2 > 24)
+            {
+                return false;
+            } else
+            {
+                return true;
             }
         }
     }

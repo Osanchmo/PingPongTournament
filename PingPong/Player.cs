@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace PingPong
 {
-    class Player
+    public class Player
     {
         [JsonIgnore]
         public string id { get; set; }
